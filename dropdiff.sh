@@ -52,6 +52,7 @@ QUIET=0
 
 # standard function from http://wiki.dropbox.com/DropboxAddons/get_dropbox_folder
 function get_dropbox_folder {
+  [ -n "$DROPBOX_FOLDER" ] && return
   local SQLITE3=$( which sqlite3 )
   if [ -z "$SQLITE3" ]
   then
