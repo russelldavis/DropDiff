@@ -204,7 +204,7 @@ function check_dropbox_cookies {
   local RESULTPAGE
   if [ "$WGET" ]
   then
-    RESULTPAGE=$( "$WGET" -q --load-cookies "$COOKIEJAR" "$TESTURL" -O - )
+    RESULTPAGE=$( "$WGET" -nv --load-cookies "$COOKIEJAR" "$TESTURL" -O - )
   elif [ "$CURL" ]
   then
     RESULTPAGE=$( "$CURL" -s --cookie "$COOKIEJAR" "$TESTURL" )
@@ -269,7 +269,7 @@ function get_dropbox_cookies {
     local LOGINURL="https://www.dropbox.com/login"
     if [ "$WGET" ]
     then
-      "$WGET" -q --keep-session-cookies --save-cookies "$TEMP_COOKIES" --post-data="login_email=$(urlencode $DROPBOX_USER)&login_password=$(urlencode $DROPBOX_PASSWORD)" "$LOGINURL" -O /dev/null
+      "$WGET" -nv --keep-session-cookies --save-cookies "$TEMP_COOKIES" --post-data="login_email=$(urlencode $DROPBOX_USER)&login_password=$(urlencode $DROPBOX_PASSWORD)" "$LOGINURL" -O /dev/null
     elif [ "$CURL" ]
     then
       "$CURL" -s --cookie-jar "$TEMP_COOKIES.curl" --data-urlencode "login_email=$DROPBOX_USER" --data-urlencode "login_password=$DROPBOX_PASSWORD" "$LOGINURL" -o /dev/null
@@ -404,7 +404,7 @@ else
         REVISIONSURL="https://www.dropbox.com/revisions/$FILE_ONLY"
         if [ "$WGET" ]
         then
-          REVLIST=$( "$WGET" -q --load-cookies "$DROPBOX_COOKIEJAR" "$REVISIONSURL" -O - )
+          REVLIST=$( "$WGET" -nv --load-cookies "$DROPBOX_COOKIEJAR" "$REVISIONSURL" -O - )
         elif [ "$CURL" ]
         then
           REVLIST=$( "$CURL" -s --cookie "$DROPBOX_COOKIEJAR" "$REVISIONSURL" )
@@ -417,7 +417,7 @@ else
           LAST_FILE_URL=${OLD_FILES[1]}
           if [ "$WGET" ]
           then
-            LAST_FILE_CONTENTS=$( "$WGET" -q --load-cookies "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL" -O -; echo x )
+            LAST_FILE_CONTENTS=$( "$WGET" -nv --load-cookies "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL" -O -; echo x )
           elif [ "$CURL" ]
           then
             LAST_FILE_CONTENTS=$( "$CURL" -s --cookie "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL"; echo x )
