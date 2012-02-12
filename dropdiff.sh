@@ -413,17 +413,19 @@ else
         OLD_FILES_COUNT=${#OLD_FILES[@]}
         if [ $OLD_FILES_COUNT -ge 2 ]
         then
+          TMPFILE=$(mktemp)
           # URL of second-newest file (i.e. not latest)
           LAST_FILE_URL=${OLD_FILES[1]}
           if [ "$WGET" ]
           then
-            LAST_FILE_CONTENTS=$( "$WGET" -nv --load-cookies "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL" -O -; echo x )
+            "$WGET" -nv --load-cookies "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL" -O "$TMPFILE"
           elif [ "$CURL" ]
           then
-            LAST_FILE_CONTENTS=$( "$CURL" -s --cookie "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL"; echo x )
+            "$CURL" -s --cookie "$DROPBOX_COOKIEJAR" "$LAST_FILE_URL" -o "$TMPFILE"
           fi
           # Finally - the user-visible diff
-          "$DIFF" $DIFF_OPTS <(echo -n "${LAST_FILE_CONTENTS%x}") "$LOCAL_PATH"
+          "$DIFF" $DIFF_OPTS "$TMPFILE" "$LOCAL_PATH"
+          rm $TMPFILE
         else
           echo "No older version of \"$LOCAL_PATH\" is stored in Dropbox"
         fi
