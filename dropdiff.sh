@@ -40,10 +40,10 @@ DROPBOX_COOKIEJAR=~/.dropbox_login_cookies.txt
 # Set this to 1 (or give the -d option) to automatically delete cookies after the script has finished
 DELETE_COOKIEJAR=0
 
-# hardcode one of these binary locations if you don't want to use the one found in PATH
-WGET=
-CURL=
-DIFF=
+# hardcode one of these binary locations (or set in the environment) if you don't want to use the one found in PATH
+#WGET=
+#CURL=
+#DIFF=
 
 # Any extra arguments to pass to the diff command
 DIFF_OPTS=
